@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "NewUserMessage",
+  "namespace": "demo.portfolio.infra.schemas.user",
+  "fields": [
+    { "name": "user_id", "type": "long" },
+    { "name": "login", "type": "string" }
+  ]
+}
