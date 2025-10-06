@@ -5,7 +5,7 @@ on:
     branches: [ 'main' ]
 
 env: 
-  IMAGE: issakhrorov/demo-infra
+  IMAGE: issakhrorov/demo-infra:user-service
   
 jobs:
   build-test:
@@ -14,19 +14,23 @@ jobs:
       sha: ${{ steps.getsha.outputs.shortsha }}
     steps:  
       - uses: actions/checkout@v4
+      
       - name: Get short SHA
         id: getsha
-        run: echo "::set-output name=shortsha::${GITHUB-SHA::7}"
+        run: echo "shortsha=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT 
+        
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
+          
       - name: Run unit tests
         run: ./gradlew clean test --no-daemon
 
   build-and-push:
     needs: build-test
     runs-on: ubuntu-latest
+    environment: main
     steps:
       - uses: actions/checkout@v4
       - name: Log in to Docker Hub
@@ -36,16 +40,20 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build image
         run: |
-          docker build -t $IMAGE:${{ needs.build-test.output.sha }} .
-          docker tag $IMAGE:${{ needs.build-test.output.sha }} $IMAGE:latest
+          TAG=${{ needs.build-test.outputs.sha }}
+          docker build -t $IMAGE:$TAG .
+          docker tag $IMAGE:$TAG $IMAGE:latest
+
       - name: Push image
         run: |
-          docker push $IMAGE:${{ needs.build-test.output.sha }}
+          TAG=${{ needs.build-test.outputs.sha }}
+          docker push $IMAGE:$TAG
           docker push $IMAGE:latest
 
   deploy:
     needs: build-and-push
     runs-on: ubuntu:latest
+    environment: main
     steps: 
       - name: Deploy to server over SSH
         uses: appleboy/ssh-action@v0.1.7
@@ -54,8 +62,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT || 22 }}
-          script: 
-            cd /home/${{ secrets.SERVER_USER }}
-            ./deploy.sh ${{ needs.build-test.outputs.sha }}
+          script: |
+            bash "/Users/akhrorovismoil/Desktop/SR Projects/DemoInfraPortfolio/SERVER/deploy-local.sh" ${{ needs.build-test.outputs.sha }}
       
           
