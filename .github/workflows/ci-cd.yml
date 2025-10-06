@@ -62,4 +62,4 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run local deploy script
-        run: bash "./SERVER/deploy-local.sh" ${{ needs.build-and-push.outputs.sha }}
+        run: bash "./SERVER/deploy-local.sh" ${{ needs.build-test.outputs.sha }}
