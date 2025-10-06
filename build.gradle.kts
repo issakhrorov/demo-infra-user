@@ -117,6 +117,8 @@ dependencies {
 	testImplementation("org.springframework.grpc:spring-grpc-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
 	testImplementation("org.springframework.security:spring-security-test")
+	testImplementation("org.testcontainers:postgresql:1.20.3")
+	testImplementation("org.testcontainers:junit-jupiter:1.20.3")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
