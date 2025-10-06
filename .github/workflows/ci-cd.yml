@@ -68,4 +68,4 @@ jobs:
 
       - name: Run local deploy script
         working-directory: ${{ github.workspace }}
-        run: bash "./SERVER/deploy-local.sh" ${{ needs.build-test.outputs.sha }}
+        run: bash "/Users/akhrorovismoil/Desktop/SR_Projects/DemoInfraPortfolio/SERVER/deploy-local.sh"
