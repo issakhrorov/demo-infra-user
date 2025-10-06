@@ -22,7 +22,7 @@ jobs:
           distribution: temurin
           java-version: '21'
       - name: Run unit tests
-        run: ./gradlew clean test --no-deamon
+        run: ./gradlew clean test --no-daemon
 
   build-and-push:
     needs: build-test
