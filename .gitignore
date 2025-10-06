@@ -1,0 +1,93 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### JTE ###
+/jte-classes/
+
+
+### OS / Editor Files ###
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+
+### Logs ###
+*.logs
+logs/
+*.out
+
+### Spring Boot ###
+.env
+*.local.properties
+application-local.properties
+application-local.yml
+
+### Test / Coverage ###
+/test-output/
+/surefire-reports/
+/jacoco.exec/
+/jacoco-reports/
+
+### Docker ###
+*.pid
+*.seed
+*.pid.lock
+/docker-compose.override.yml
+
+### Secrets / Keys ###
+*.key
+*.pem
+*.crt
+*.p12
+*.jks
+*.keystore
+*.secret
+*.token
+/secrets/
+/credentials/
+
+### OS temporary files ###
+/tmp/
+/*.tmp
+*.old
+
+### Kotlin ###
+*.kotlin_module
+
