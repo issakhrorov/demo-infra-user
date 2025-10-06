@@ -61,5 +61,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug workspace
+        run: |
+          pwd
+          ls -R
+
       - name: Run local deploy script
-        run: bash "/Users/akhrorovismoil/Desktop/SR\ Projects/DemoInfraPortfolio/SERVER/deploy-local.sh" ${{ needs.build-test.outputs.sha }}
+        working-directory: ${{ github.workspace }}
+        run: bash "./SERVER/deploy-local.sh" ${{ needs.build-test.outputs.sha }}
