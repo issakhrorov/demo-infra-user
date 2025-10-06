@@ -1,8 +1,9 @@
 name: CI/CD
 
-on: 
+on:
   push:
     branches: [ 'main' ]
+  workflow_dispatch:
 
 env: 
   IMAGE: issakhrorov/demo-infra
