@@ -75,10 +75,14 @@ jobs:
   update-helm:
     needs: build-and-push
     runs-on: ubuntu-latest
+    environment: main
     steps:
+      - name: List all secrets (safe)
+        run: |
+          echo "Secrets available: ${{ toJson(secrets) }}"
       - name: Debug secret presence
         run: |
-          if [ -z "${{ secrets.A }}" ]; then
+          if [ -z "${{ secrets.PAT_GITHUB }}" ]; then
             echo "❌ PAT_GITHUB is missing"
             exit 1
           else
@@ -89,7 +93,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: issakhrorov/demo-infra-helm
-          token: ${{ secrets.A }}
+          token: ${{ secrets.PAT_GITHUB }}
           path: helm
 
       - name: Update image tag in Helm values.yaml
@@ -105,4 +109,4 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git add .
           git commit -m "Update user-service image tag to $TAG" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.A }}@github.com/issakhrorov/demo-infra-helm.git main
+          git push https://x-access-token:${{ secrets.PAT_GITHUB }}@github.com/issakhrorov/demo-infra-helm.git main
