@@ -76,6 +76,15 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
+      - name: Debug secret presence
+        run: |
+          if [ -z "${{ secrets.PAT_GITHUB }}" ]; then
+            echo "❌ PAT_GITHUB is missing"
+            exit 1
+          else
+            echo "✅ PAT_GITHUB is available"
+          fi
+
       - name: Checkout Help repo
         uses: actions/checkout@v4
         with:
