@@ -96,4 +96,4 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git add .
           git commit -m "Update user-service image tag to $TAG" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/issakhrorov/demo-infra-helm.git main
+          git push https://x-access-token:${{ secrets.PAT_GITHUB }}@github.com/issakhrorov/demo-infra-helm.git main
