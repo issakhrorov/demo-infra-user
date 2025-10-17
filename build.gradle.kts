@@ -92,7 +92,6 @@ dependencies {
 	implementation("org.apache.avro:avro:1.12.0")
 
 	implementation("io.confluent:kafka-avro-serializer:7.9.1")
-	implementation("io.zipkin.reporter2:zipkin-reporter-brave")
 	implementation("io.grpc:grpc-services")
 	implementation("io.micrometer:micrometer-tracing-bridge-brave")
 	implementation("io.jsonwebtoken:jjwt-api:0.12.5")

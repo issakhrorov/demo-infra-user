@@ -1,7 +1,17 @@
 FROM gradle:8-jdk21 AS builder
 WORKDIR /home/gradle/project
-COPY --chown=gradle:gradle . .
-RUN gradle --no-daemon clean assemble
+
+COPY gradle gradle
+COPY gradlew gradlew
+COPY build.gradle.kts settings.gradle.kts ./
+
+RUN chmod +x gradlew
+
+RUN ./gradlew dependencies --no-daemon || return 0
+
+COPY src src
+
+RUN ./gradlew --no-daemon clean assemble
 
 FROM eclipse-temurin:21-jre-jammy
 
