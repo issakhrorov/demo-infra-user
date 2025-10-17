@@ -49,7 +49,7 @@ jobs:
 
       - name: Push image
         run: |
-          TAG="user-service${{ needs.build-test.outputs.sha }}"
+          TAG="user-service-${{ needs.build-test.outputs.sha }}"
           docker push $IMAGE:$TAG
           docker push $IMAGE:user-service
 
