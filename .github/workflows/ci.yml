@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: main
     steps:
-      - name: Checkout Help repo
+      - name: Checkout Helm repo
         uses: actions/checkout@v4
         with:
           repository: issakhrorov/demo-infra-helm
@@ -100,7 +100,7 @@ jobs:
       - name: Update image tag in Helm values.yaml
         run: |
           cd helm/user
-          TAG="user-service-${{ needs.build-and-push.outputs.image_tag }}"
+          TAG="${{ needs.build-and-push.outputs.image_tag }}"
           echo "Updating tag to: $TAG"
           yq e -i ".image.tag = \"$TAG\"" values.yaml
 
