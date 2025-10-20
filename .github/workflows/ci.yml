@@ -77,17 +77,9 @@ jobs:
     runs-on: ubuntu-latest
     environment: main
     steps:
-      - name: List all secrets (safe)
+      - name: Check Output sha (Tag)
         run: |
-          echo "Secrets available: ${{ toJson(secrets) }}"
-      - name: Debug secret presence
-        run: |
-          if [ -z "${{ secrets.PAT_GITHUB }}" ]; then
-            echo "❌ PAT_GITHUB is missing"
-            exit 1
-          else
-            echo "✅ PAT_GITHUB is available"
-          fi
+          echo "user-service-${{ needs.build-test.outputs.sha }}"
 
       - name: Checkout Help repo
         uses: actions/checkout@v4
