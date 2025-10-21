@@ -34,6 +34,9 @@ jobs:
     needs: build-test
     runs-on: ubuntu-latest
     environment: main
+    outputs: 
+      image_tag: ${{ steps.settag.outputs.tag }}
+
     steps:
       - uses: actions/checkout@v4
 
@@ -42,6 +45,13 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set image tag
+        id: settag
+        run: |
+          TAG="user-service-${{ needs.build-test.outputs.sha }}"
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "Docker tag set to $TAG"
 
       - name: Build image
         run: |
@@ -77,29 +87,21 @@ jobs:
     runs-on: ubuntu-latest
     environment: main
     steps:
-      - name: List all secrets (safe)
-        run: |
-          echo "Secrets available: ${{ toJson(secrets) }}"
-      - name: Debug secret presence
-        run: |
-          if [ -z "${{ secrets.PAT_GITHUB }}" ]; then
-            echo "❌ PAT_GITHUB is missing"
-            exit 1
-          else
-            echo "✅ PAT_GITHUB is available"
-          fi
-
-      - name: Checkout Help repo
+      - name: Checkout Helm repo
         uses: actions/checkout@v4
         with:
           repository: issakhrorov/demo-infra-helm
           token: ${{ secrets.PAT_GITHUB }}
           path: helm
 
+      - name: Show tag passed from build and push
+        run: echo "user-service-${{ needs.build-and-push.outputs.image_tag }}"
+
       - name: Update image tag in Helm values.yaml
         run: |
           cd helm/user
-          TAG="user-service-${{ needs.build-test.outputs.sha }}"
+          TAG="${{ needs.build-and-push.outputs.image_tag }}"
+          echo "Updating tag to: $TAG"
           yq e -i ".image.tag = \"$TAG\"" values.yaml
 
       - name: Commit and push Helm update
